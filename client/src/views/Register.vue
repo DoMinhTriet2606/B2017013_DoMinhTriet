@@ -28,6 +28,7 @@
 <script>
 import { mapActions } from "pinia";
 import { useAuthStore } from "@/stores/Auth.store";
+import Swal from "sweetalert2";
 
 export default {
     data() {
@@ -43,19 +44,54 @@ export default {
         async submitForm() {
             const user = { username: this.username, email: this.email, password: this.password };
             try {
-                // Add logic for registering the user
-                await this.register(user);
+                // Attempt to register the user
+                const response = await this.register(user);
+                if (response.success) {
+                    // After successful registration, you may want to automatically log in the user.
+                    // Adjust this part based on your authentication flow.
+                    const userData = await this.login(user);
 
-                // After successful registration, you may want to automatically log in the user.
-                // Adjust this part based on your authentication flow.
-                const userData = await this.login(user);
+                    console.log("User registered and logged in:", userData);
 
-                console.log("User registered and logged in:", userData);
-
-                // Redirect to the home view for non-admin users
-                this.$router.push("/");
+                    // Redirect to the home view for non-admin users
+                    this.$router.push("/");
+                } else {
+                    Swal.fire({
+                        title: "Registration Error",
+                        text: response.error,
+                        icon: "error",
+                        confirmButtonText: "OK",
+                    });
+                }
             } catch (error) {
                 console.error(error);
+
+                // Check the error message to determine if it's a duplicate username or email error
+                const errorMessage = error.response.data.error;
+
+                if (errorMessage.includes("username")) {
+                    Swal.fire({
+                        title: "Registration Error3",
+                        text: "Username already exists. Please choose another username.",
+                        icon: "error",
+                        confirmButtonText: "OK",
+                    });
+                } else if (errorMessage.includes("email")) {
+                    Swal.fire({
+                        title: "Registration Error2",
+                        text: "Email already exists. Please use another email address.",
+                        icon: "error",
+                        confirmButtonText: "OK",
+                    });
+                } else {
+                    // Handle other registration errors
+                    Swal.fire({
+                        title: "Registration Error1",
+                        text: "An error occurred during registration.",
+                        icon: "error",
+                        confirmButtonText: "OK",
+                    });
+                }
             }
         },
     },

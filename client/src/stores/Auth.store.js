@@ -42,14 +42,20 @@ export const useAuthStore = defineStore("authStore", {
             try {
                 const response = await axios.post("auth/register", user);
                 console.log(response);
+
                 if (response.data.success) {
-                    this.user = response.data.user;
+                    const userData = response.data.user;
+                    this.user = userData;
                     this.setAccessToken(response.data.accessToken);
                     localStorage.setItem("access-token", this.accessToken);
-                    return this.user;
+                    return { success: true, user: userData }; // Return user data on success
+                } else {
+                    console.log(response);
+                    return { success: false, error: response.data.error };
                 }
             } catch (error) {
-                console.log(error);
+                console.error(error);
+                return { success: false, error: "An error occurred during registration." };
             }
         },
     },

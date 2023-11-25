@@ -6,12 +6,13 @@ import HomeView from "@/views/HomeView.vue";
 import Admin from "@/views/AdminView.vue";
 import ViewProducts from "../components/admin/ViewProducts.vue";
 import ProductDetail from "@/views/ProductDetail.vue";
+import UserOrder from "@/views/UserOrder.vue";
 import AddProducts from "../components/admin/AddProduct.vue";
 import ViewCart from "../components/admin/ViewCart.vue";
 import UserProfile from "../views/UserProfile.vue";
 import AdminProfile from "../components/admin/AdminProfile.vue";
 import Customers from "../components/admin/Customers.vue";
-import UserOrder from "@/views/UserOrder.vue";
+import Orders from "../components/admin/Orders.vue";
 
 const routes = [
     {
@@ -58,6 +59,7 @@ const routes = [
             { path: "view-cart", component: ViewCart },
             { path: "profile", component: AdminProfile },
             { path: "customers", component: Customers },
+            { path: "orders", component: Orders },
         ],
         meta: { requiresAuth: true },
     },

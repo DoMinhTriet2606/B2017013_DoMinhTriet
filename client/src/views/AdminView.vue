@@ -38,6 +38,9 @@
                             >
                         </li>
                         <li class="nav-item">
+                            <router-link to="/admin/orders" class="nav-link">Orders</router-link>
+                        </li>
+                        <li class="nav-item">
                             <router-link to="/admin/customers" class="nav-link"
                                 >Customers</router-link
                             >

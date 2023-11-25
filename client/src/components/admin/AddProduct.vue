@@ -51,7 +51,7 @@
 
 <script>
 import axios from "axios";
-import swal from "sweetalert";
+import Swal from "sweetalert2";
 
 export default {
     name: "AddProducts",
@@ -88,7 +88,7 @@ export default {
 
                 // Handle the response as needed
                 if (response.data.success) {
-                    swal({
+                    Swal.fire({
                         title: "Success",
                         text: "Product Added Successfully",
                         icon: "success",
@@ -96,15 +96,15 @@ export default {
                 }
 
                 // Optionally, you can reset the form fields
-                (this.title = ""),
-                    (this.desc = ""),
-                    (this.img = ""),
-                    (this.category = ""),
-                    (this.size = ""),
-                    (this.price = 0);
+                this.title = "";
+                this.desc = "";
+                this.img = "";
+                this.category = "";
+                this.size = "";
+                this.price = 0;
                 // Reset other fields as needed
             } catch (error) {
-                swal({
+                Swal.fire({
                     title: "Error",
                     text: "Product already exists",
                     icon: "error",

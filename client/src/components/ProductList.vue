@@ -45,7 +45,7 @@
 
 <script>
 import axios from "../axios";
-import swal from "sweetalert";
+import Swal from "sweetalert2";
 
 export default {
     name: "ProductList",
@@ -81,7 +81,7 @@ export default {
                 const response = await axios.get("/users/profile");
                 this.user = response.data.user;
             } catch (error) {
-                console.log(error);
+                console.error("Error fetching user:", error);
             }
         },
         async fetchProducts() {
@@ -117,15 +117,19 @@ export default {
                     });
                     // Handle the response if needed
                     console.log("Product added to cart:", response.data);
-                    // Show SweetAlert success message
-                    swal("Success!", "Product added to cart.", "success");
+                    // Show SweetAlert2 success message
+                    await Swal.fire("Success!", "Product added to cart.", "success");
                 } catch (error) {
                     console.error("Error adding product to cart:", error);
-                    // Show SweetAlert error message
-                    swal("Error", "Failed to add product to cart.", "error");
+                    // Show SweetAlert2 error message
+                    await Swal.fire("Error", "Failed to add product to cart.", "error");
                 }
             } else {
-                swal("Error", "Customer need login for adding product to cart", "error");
+                await Swal.fire(
+                    "Error",
+                    "Customer needs to log in to add the product to the cart",
+                    "error"
+                );
                 return;
             }
         },

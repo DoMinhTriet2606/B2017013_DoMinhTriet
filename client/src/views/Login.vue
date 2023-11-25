@@ -23,6 +23,7 @@
 <script>
 import { mapActions } from "pinia";
 import { useAuthStore } from "@/stores/Auth.store";
+import Swal from "sweetalert2";
 
 export default {
     data() {
@@ -47,6 +48,12 @@ export default {
                 }
             } catch (error) {
                 console.error(error);
+                Swal.fire({
+                    title: "Login Error",
+                    text: "Invalid email or password",
+                    icon: "error",
+                    confirmButtonText: "OK",
+                });
             }
         },
     },

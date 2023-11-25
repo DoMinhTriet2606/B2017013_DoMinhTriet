@@ -48,8 +48,7 @@
         </div>
 
         <!-- Modify Product Form Modal -->
-        <div v-if="isModifyFormVisible" class="modal fade show" tabindex="-1" role="dialog">
-            <!-- Add your modify product form here -->
+        <div v-if="isModifyFormVisible" class="modal show" tabindex="-1" role="dialog">
             <div
                 class="container d-flex flex-column align-items-center justify-content-center w-50"
             >
@@ -135,20 +134,20 @@
 
                     <!-- Add more fields as needed -->
 
+                    <!-- Add more fields as needed -->
+
                     <button type="submit" class="btn btn-primary">Confirm</button>
                 </form>
                 <button @click="closeModifyForm" class="btn btn-secondary">Close</button>
-                <!-- ... -->
             </div>
         </div>
 
         <!-- Delete Confirmation Modal -->
-        <div v-if="isDeleteConfirmationVisible" class="modal fade show" tabindex="-1" role="dialog">
-            <!-- Add your delete confirmation dialog here -->
+        <div v-if="isDeleteConfirmationVisible" class="modal show" tabindex="-1" role="dialog">
             <div
                 class="container d-flex flex-column align-items-center justify-content-center w-50"
             >
-                <h3 class="text-white mb-4">Are you sure you want to delete this product?</h3>
+                <h3 class="mb-4">Are you sure you want to delete this product?</h3>
                 <div>
                     <button @click="deleteProduct(selectedProductId)" class="btn btn-danger mx-4">
                         Yes, Delete
@@ -164,7 +163,7 @@
 
 <script>
 import axios from "../../axios";
-import swal from "sweetalert";
+import Swal from "sweetalert2";
 
 export default {
     name: "ProductList",
@@ -247,16 +246,16 @@ export default {
         },
 
         openDeleteConfirmation(productId) {
-            swal({
+            Swal.fire({
                 title: "Delete Product",
                 text: "Are you sure you want to delete this product?",
                 icon: "warning",
-                buttons: {
-                    cancel: "Cancel",
-                    confirm: "Delete",
-                },
-            }).then((isConfirmed) => {
-                if (isConfirmed) {
+                showCancelButton: true,
+                confirmButtonColor: "#d33",
+                cancelButtonColor: "#3085d6",
+                confirmButtonText: "Yes, delete it!",
+            }).then((result) => {
+                if (result.isConfirmed) {
                     // If the user clicks "Delete," proceed with the deletion
                     this.deleteProduct(productId);
                 }
@@ -281,27 +280,27 @@ export default {
                 // Add more fields as needed
             };
 
-            swal({
+            Swal.fire({
                 title: "Update Product",
                 text: "Are you sure you want to update this product?",
                 icon: "warning",
-                buttons: {
-                    cancel: "Cancel",
-                    confirm: "OK",
-                },
-            }).then(async (isConfirmed) => {
-                if (isConfirmed) {
+                showCancelButton: true,
+                confirmButtonColor: "#3085d6",
+                cancelButtonColor: "#d33",
+                confirmButtonText: "OK",
+            }).then(async (result) => {
+                if (result.isConfirmed) {
                     try {
                         // Make a PUT or PATCH request to update the selected product
                         await axios.put(`/products/${this.selectedProductId}`, modifiedProductData);
                         // Close the modify form
                         this.closeModifyForm();
                         // Show a success message
-                        swal("Success", "Product updated successfully!", "success").then(() =>
+                        Swal.fire("Success", "Product updated successfully!", "success").then(() =>
                             this.fetchProducts()
                         );
                     } catch (error) {
-                        swal({
+                        Swal.fire({
                             title: "Error",
                             text: error,
                             icon: "error",
@@ -318,11 +317,11 @@ export default {
                 await axios.delete(`/products/${productId}`);
                 // Close the delete confirmation dialog
                 this.closeDeleteConfirmation();
-                swal("Success", "Product deleted successfully!", "success").then(() =>
+                Swal.fire("Success", "Product deleted successfully!", "success").then(() =>
                     this.fetchProducts()
                 );
             } catch (error) {
-                swal({
+                Swal.fire({
                     title: "Error",
                     text: error,
                     icon: "error",
