@@ -160,7 +160,6 @@ export default {
             }
         },
         async deleteAllUserCart(userId) {
-            console.log(userId);
             try {
                 const response = await axios.delete(`/carts/delAll/${userId}`);
                 console.log(response);
@@ -266,8 +265,9 @@ export default {
                 // Replace the standard modal with SweetAlert2 form
                 Swal.fire({
                     title: "Fill Order Information",
+                    text: "Type information here, the system will create a new order",
                     html: `
-                    <input id="name" class="swal2-input" placeholder="Name" required>
+                    <input id="phone" class="swal2-input" placeholder="Phone" required>
                     <input id="address" class="swal2-input" placeholder="Address" required>
                     <!-- Add more form fields as needed -->
                 `,
@@ -281,30 +281,32 @@ export default {
 
         async submitOrderForm() {
             // Retrieve the entered order information
-            const name = document.getElementById("name").value;
             const address = document.getElementById("address").value;
+            const phone = document.getElementById("phone").value;
 
             // Validate the order information
-            if (!name || !address) {
-                Swal.showValidationMessage("Name and address are required");
+            if (!phone || !address) {
+                Swal.showValidationMessage("Phone number or Address are required");
                 return false;
             }
 
-            // Extract product information from the user's cart
-            const products = this.cart.map((cartItem) => ({
-                productId: cartItem._id, // Assuming each cart item has a unique _id
-                quantity: cartItem.quantity,
-            }));
+            let productIds = [];
+            this.cart.forEach((cartItem) => {
+                for (let i = 1; i <= cartItem.quantity; i++) {
+                    productIds.push(cartItem.productId);
+                }
+            });
 
+            console.log(productIds);
             // Calculate the total price
             const total = this.calculateOverallTotal();
 
             // Create the order object
             const orderData = {
-                username: name,
-                userId: this.user._id, // Assuming you have the user information available
-                products,
+                user: this.user._id, // Assuming you have the user information available
+                products: productIds,
                 total,
+                phone,
                 address,
             };
 

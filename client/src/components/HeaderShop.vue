@@ -1,6 +1,6 @@
 <template>
     <!-- Navigation Bar -->
-    <nav class="navbar navbar-expand-lg navbar-light bg-light">
+    <nav class="navbar navbar-expand-lg navbar-light bg-light config-sticky">
         <div class="container">
             <!-- Your Logo -->
             <router-link to="/" class="navbar-brand">TStore</router-link>
@@ -31,7 +31,7 @@
 
                     <!-- View Order -->
                     <li class="nav-item">
-                        <router-link to="/order" class="nav-link">View Order</router-link>
+                        <router-link to="/order" class="nav-link">View Orders</router-link>
                     </li>
 
                     <!-- Profile -->
@@ -75,9 +75,14 @@
 </template>
 
 <script>
-// Import your Pinia store
 import { useAuthStore } from "../stores/Auth.store";
+
 export default {
+    data() {
+        return {
+            isSticky: false,
+        };
+    },
     computed: {
         accessToken() {
             return localStorage.getItem("access-token");
@@ -87,10 +92,28 @@ export default {
         logout() {
             useAuthStore().logout();
         },
+        handleScroll() {
+            // Check if the user has scrolled down, set isSticky accordingly
+            this.isSticky = window.scrollY > 0;
+        },
+    },
+    mounted() {
+        // Attach scroll event listener
+        window.addEventListener("scroll", this.handleScroll);
+    },
+    destroyed() {
+        // Remove scroll event listener to avoid memory leaks
+        window.removeEventListener("scroll", this.handleScroll);
     },
 };
 </script>
 
 <style scoped>
 /* Add your custom styles here if needed */
+
+.config-sticky {
+    position: sticky;
+    top: 0;
+    z-index: 10;
+}
 </style>

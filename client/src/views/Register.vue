@@ -4,7 +4,7 @@
         <form @submit.prevent="submitForm">
             <div class="mb-3">
                 <label for="username" class="form-label">Username</label>
-                <input type="text" class="form-control" v-model="username" required />
+                <input type="text" class="form-control" v-model="username" required autofocus />
             </div>
             <div class="mb-3">
                 <label for="email" class="form-label">Email</label>
@@ -17,6 +17,11 @@
             <!-- Add more form fields as needed for registration -->
             <button type="submit" class="btn btn-primary">Register</button>
         </form>
+
+        <!-- Link to navigate to the login page -->
+        <router-link to="/login" class="mt-3 d-inline-block text-center">
+            Already have an account? Click here to log in.
+        </router-link>
 
         <!-- Button to go to home view without login -->
         <router-link to="/" class="btn btn-lg mt-3 d-block mx-auto text-white light-green"

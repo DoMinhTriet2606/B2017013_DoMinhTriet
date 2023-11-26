@@ -49,7 +49,9 @@ const deleteOrder = async (req, res) => {
 //GET USER ORDERS
 const getOrder = async (req, res) => {
     try {
-        const orders = await Order.find({ userId: req.params.userId });
+        const orders = await Order.find({ user: { _id: req.params.userId } })
+            .populate("user", ["username", "email", "role"])
+            .populate("products");
         res.status(200).json(orders);
     } catch (err) {
         res.status(500).json(err);
@@ -60,7 +62,9 @@ const getOrder = async (req, res) => {
 const getAllOrder = async (req, res) => {
     if (req.role === "Admin") {
         try {
-            const orders = await Order.find();
+            const orders = await Order.find()
+                .populate("user", ["username", "email", "role"])
+                .populate("products");
             res.status(200).json(orders);
         } catch (err) {
             res.status(500).json(err);

@@ -3,7 +3,7 @@
 <template>
     <div>
         <!-- Navigation Bar -->
-        <nav class="navbar navbar-expand-lg navbar-light bg-light">
+        <nav class="navbar navbar-expand-lg navbar-light bg-light config-sticky">
             <div class="container">
                 <router-link to="/admin/view-products" class="navbar-brand"
                     >Admin Panel</router-link
@@ -38,7 +38,9 @@
                             >
                         </li>
                         <li class="nav-item">
-                            <router-link to="/admin/orders" class="nav-link">Orders</router-link>
+                            <router-link to="/admin/orders" class="nav-link"
+                                >View Orders</router-link
+                            >
                         </li>
                         <li class="nav-item">
                             <router-link to="/admin/customers" class="nav-link"
@@ -88,4 +90,9 @@ export default {
 
 <style scoped>
 /* Add any custom styles here */
+.config-sticky {
+    position: sticky;
+    top: 0;
+    z-index: 10;
+}
 </style>
