@@ -3,7 +3,7 @@
     <nav class="navbar navbar-expand-lg navbar-light bg-light config-sticky">
         <div class="container">
             <!-- Your Logo -->
-            <router-link to="/" class="navbar-brand">TStore</router-link>
+            <router-link to="/" class="navbar-brand">NENDO WORLD</router-link>
 
             <button
                 class="navbar-toggler"
